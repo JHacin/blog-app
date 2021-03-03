@@ -1,7 +1,7 @@
 import App from './_app';
 import { AppProps } from 'next/app';
 import { Router } from 'next/router';
-import { render, screen } from '@testing-library/react';
+import { render, screen } from '../tests/test_utils';
 
 describe('App', () => {
   it('should render the provided component', async () => {

@@ -9,4 +9,7 @@ module.exports = {
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
   testPathIgnorePatterns: ['<rootDir>/.next', '<rootDir>/constants', '<rootDir>/tests'],
   coveragePathIgnorePatterns: ['<rootDir>/.next', '<rootDir>/constants', '<rootDir>/tests'],
+  moduleNameMapper: {
+    '\\.css$': '<rootDir>/tests/styleMock.ts',
+  }
 };
