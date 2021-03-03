@@ -7,4 +7,6 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'babel-jest',
   },
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
+  testPathIgnorePatterns: ['<rootDir>/.next', '<rootDir>/constants', '<rootDir>/tests'],
+  coveragePathIgnorePatterns: ['<rootDir>/.next', '<rootDir>/constants', '<rootDir>/tests'],
 };
