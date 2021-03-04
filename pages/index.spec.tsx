@@ -1,19 +1,20 @@
 import { render, screen } from '../tests/test_utils';
 import Home, { getStaticProps, HomeProps } from './index';
 import { postsFixture } from '../tests/fixtures';
-import axios from 'axios';
 import { getText } from '../utils/general';
 import { GetStaticPropsResult } from 'next';
 import { mocked } from 'ts-jest/utils';
-import { API_BASE_URL, ApiEndpoint } from '../constants';
 import { PropsWithChildren } from 'react';
-import { FetchResult, Post } from '../types';
+import { FetchResult } from '../types';
+import { getPosts } from '../services/api';
 
 jest.mock('next/head', () => ({
   __esModule: true,
   default: ({ children }: PropsWithChildren<Record<string, never>>) => children,
 }));
-jest.mock('axios');
+jest.mock('../services/api');
+// eslint-disable-next-line react/display-name
+jest.mock('../components/post-preview/post-preview', () => () => <div data-testid="PostPreview" />);
 
 const defaultProps: HomeProps = {
   posts: postsFixture,
@@ -33,11 +34,7 @@ describe('Home', () => {
 
     expect(screen.getByText(getText('home-latest-posts'))).toBeInTheDocument();
     expect(screen.queryByText(getText('home-fetch-error'))).not.toBeInTheDocument();
-
-    defaultProps.posts.forEach((post: Post) => {
-      expect(screen.getByText(post.title)).toBeInTheDocument();
-      expect(screen.getByText(post.body)).toBeInTheDocument();
-    });
+    expect(screen.getAllByTestId('PostPreview')).toHaveLength(postsFixture.length);
   });
 
   it('should display an error message if fetching fails', () => {
@@ -48,17 +45,16 @@ describe('Home', () => {
   });
 
   describe('getStaticProps', () => {
-    const mockGet = mocked(axios.get);
+    const mockGetPosts = mocked(getPosts);
 
     beforeAll(() => {
-      mockGet.mockResolvedValue({ data: postsFixture });
+      mockGetPosts.mockResolvedValue(postsFixture);
     });
 
     it('should call the API with correct params', async () => {
       await getStaticProps({});
 
-      expect(mockGet).toHaveBeenCalledTimes(1);
-      expect(mockGet).toHaveBeenCalledWith(`${API_BASE_URL}/${ApiEndpoint.Posts}`);
+      expect(mockGetPosts).toHaveBeenCalledTimes(1);
     });
 
     it('should return posts from from the API on success', async () => {
@@ -73,7 +69,7 @@ describe('Home', () => {
     });
 
     it('should catch & handle any errors', async () => {
-      mockGet.mockRejectedValueOnce('error');
+      mockGetPosts.mockRejectedValueOnce('error');
 
       const result: GetStaticPropsResult<HomeProps> = await getStaticProps({});
 

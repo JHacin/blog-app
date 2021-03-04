@@ -4,5 +4,6 @@
   "home-jumbotron-subtitle": "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.",
   "home-latest-posts": "Latest posts",
   "home-fetch-error": "Something went wrong while retrieving latest posts. Please try again.",
-  "api-generic-error": "Something went wrong."
+  "post-fetch-error": "Something went wrong while retrieving the post, or the URL is invalid. Please try again.",
+  "error-meta-title": "Oops..."
 }
