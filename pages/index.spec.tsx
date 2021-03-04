@@ -1,22 +1,23 @@
 import { render, screen } from '../tests/test_utils';
 import Home, { getStaticProps, HomeProps } from './index';
 import { postsFixture } from '../tests/fixtures';
-import { mocked } from 'ts-jest/utils';
 import axios from 'axios';
-import { GetStaticPropsResult } from 'next';
 import { getText } from '../utils/general';
-import { InternalApiEndpoint, INTERNAL_API_BASE_URL } from '../constants';
-import { Post } from '../types';
+import { GetStaticPropsResult } from 'next';
+import { mocked } from 'ts-jest/utils';
+import { API_BASE_URL, ApiEndpoint } from '../constants';
+import { PropsWithChildren } from 'react';
+import { FetchResult, Post } from '../types';
 
 jest.mock('next/head', () => ({
   __esModule: true,
-  default: ({ children }) => children,
+  default: ({ children }: PropsWithChildren<Record<string, never>>) => children,
 }));
 jest.mock('axios');
 
 const defaultProps: HomeProps = {
   posts: postsFixture,
-  fetchResult: 'success',
+  fetchResult: FetchResult.Success,
 };
 
 describe('Home', () => {
@@ -24,7 +25,7 @@ describe('Home', () => {
     render(<Home {...defaultProps} />);
 
     expect(document.title).toEqual(getText('home-title'));
-    expect(screen.getByText(getText('home-jumbotron-title'))).toBeInTheDocument()
+    expect(screen.getByText(getText('home-jumbotron-title'))).toBeInTheDocument();
   });
 
   it('should display a list of posts if fetching succeeds', () => {
@@ -40,7 +41,7 @@ describe('Home', () => {
   });
 
   it('should display an error message if fetching fails', () => {
-    render(<Home {...defaultProps} fetchResult="error" />);
+    render(<Home {...defaultProps} fetchResult={FetchResult.Error} />);
 
     expect(screen.getByText(getText('home-fetch-error'))).toBeInTheDocument();
     expect(screen.queryByText(getText('home-latest-posts'))).not.toBeInTheDocument();
@@ -50,25 +51,23 @@ describe('Home', () => {
     const mockGet = mocked(axios.get);
 
     beforeAll(() => {
-      mockGet.mockResolvedValue({ data: { data: postsFixture } });
+      mockGet.mockResolvedValue({ data: postsFixture });
     });
 
-    it('should call the API route endpoint with correct params', async () => {
+    it('should call the API with correct params', async () => {
       await getStaticProps({});
 
       expect(mockGet).toHaveBeenCalledTimes(1);
-      expect(mockGet).toHaveBeenCalledWith(
-        `${INTERNAL_API_BASE_URL}/api/${InternalApiEndpoint.Posts}`,
-      );
+      expect(mockGet).toHaveBeenCalledWith(`${API_BASE_URL}/${ApiEndpoint.Posts}`);
     });
 
-    it('should return posts from /api/posts', async () => {
+    it('should return posts from from the API on success', async () => {
       const result: GetStaticPropsResult<HomeProps> = await getStaticProps({});
 
       expect(result).toEqual({
         props: {
           posts: postsFixture,
-          fetchResult: 'success',
+          fetchResult: FetchResult.Success,
         },
       });
     });
@@ -81,7 +80,7 @@ describe('Home', () => {
       expect(result).toEqual({
         props: {
           posts: [],
-          fetchResult: 'error',
+          fetchResult: FetchResult.Error,
         },
       });
     });

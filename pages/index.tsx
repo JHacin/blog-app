@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import { FetchResult, Post } from '../types';
 import axios from 'axios';
 import { getText } from '../utils/general';
-import { InternalApiEndpoint, INTERNAL_API_BASE_URL } from '../constants';
+import { ApiEndpoint, API_BASE_URL } from '../constants';
 import {
   Card,
   CardBody,
@@ -23,21 +23,21 @@ export interface HomeProps {
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
-    const { data } = await axios.get<{ data: Post[] }>(
-      `${INTERNAL_API_BASE_URL}/api/${InternalApiEndpoint.Posts}`,
+    const { data } = await axios.get<Post[]>(
+      `${API_BASE_URL}/${ApiEndpoint.Posts}`,
     );
 
     return {
       props: {
-        posts: data.data,
-        fetchResult: 'success',
+        posts: data,
+        fetchResult: FetchResult.Success,
       },
     };
   } catch (err) {
     return {
       props: {
         posts: [],
-        fetchResult: 'error',
+        fetchResult: FetchResult.Error,
       },
     };
   }
