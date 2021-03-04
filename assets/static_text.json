@@ -1,0 +1,8 @@
+{
+  "home-title": "Blog App",
+  "home-jumbotron-title": "This is a random blog.",
+  "home-jumbotron-subtitle": "This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.",
+  "home-latest-posts": "Latest posts",
+  "home-fetch-error": "Something went wrong while retrieving latest posts. Please try again.",
+  "api-generic-error": "Something went wrong."
+}

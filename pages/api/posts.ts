@@ -1,17 +1,20 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import { API_BASE_URL } from '../../constants';
+import { EXTERNAL_API_BASE_URL, ExternalApiEndpoint } from '../../constants';
 import { ApiRouteResponse, Post } from '../../types';
+import { getText } from '../../utils/general';
 
 export default async (
   req: NextApiRequest,
   res: NextApiResponse<ApiRouteResponse<Post[]>>,
 ): Promise<void> => {
   try {
-    const response = await axios.get<Post[]>(`${API_BASE_URL}/posts`);
+    const { data } = await axios.get<Post[]>(
+      `${EXTERNAL_API_BASE_URL}/${ExternalApiEndpoint.Posts}`,
+    );
 
-    res.status(200).json({ data: response.data });
+    res.status(200).json({ data });
   } catch (err) {
-    res.status(500).json({ error: 'Something went wrong' });
+    res.status(500).json({ error: getText('api-generic-error') });
   }
 };

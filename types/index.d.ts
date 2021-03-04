@@ -14,3 +14,5 @@ interface ErrorRes {
 }
 
 export type ApiRouteResponse<T> = SuccessRes<T> | ErrorRes
+
+export type FetchResult = 'error' | 'success'

@@ -2,9 +2,10 @@ import handler from './posts';
 import { testApiHandler } from 'next-test-api-route-handler';
 import axios from 'axios';
 import { mocked } from 'ts-jest/utils';
-import { API_BASE_URL } from '../../constants';
+import { EXTERNAL_API_BASE_URL, ExternalApiEndpoint } from '../../constants';
 import { ApiRouteResponse, Post } from '../../types';
 import { postsFixture } from '../../tests/fixtures';
+import { getText } from '../../utils/general';
 
 jest.mock('axios');
 
@@ -33,7 +34,7 @@ describe('posts API route', () => {
   it('should call the api with correct params', async () => {
     await testApi(async () => {
       expect(mockGet).toHaveBeenCalledTimes(1);
-      expect(mockGet).toHaveBeenCalledWith(`${API_BASE_URL}/posts`);
+      expect(mockGet).toHaveBeenCalledWith(`${EXTERNAL_API_BASE_URL}/${ExternalApiEndpoint.Posts}`);
     });
   });
 
@@ -47,7 +48,9 @@ describe('posts API route', () => {
     mockGet.mockRejectedValueOnce('error');
 
     await testApi(async (res: Response) => {
-      expect(await res.json()).toEqual<ApiRouteResponse<Post[]>>({ error: 'Something went wrong' });
+      expect(await res.json()).toEqual<ApiRouteResponse<Post[]>>({
+        error: getText('api-generic-error'),
+      });
     });
   });
 });
