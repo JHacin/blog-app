@@ -30,10 +30,15 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps<PostPageProps, { id: string }> = async ({ params }) => {
+  const baseConfig = {
+    revalidate: 30 * 60 * 60,
+  }
+
   try {
     const post: Post = await getPost(Number(params?.id));
 
     return {
+      ...baseConfig,
       props: {
         post,
         fetchResult: FetchResult.Success,
@@ -41,6 +46,7 @@ export const getStaticProps: GetStaticProps<PostPageProps, { id: string }> = asy
     };
   } catch (err) {
     return {
+      ...baseConfig,
       props: {
         post: null,
         fetchResult: FetchResult.Error,

@@ -14,10 +14,15 @@ export interface HomeProps {
 }
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const baseConfig = {
+    revalidate: 10 * 60 * 60,
+  }
+
   try {
     const posts: GetPostsResponse = await getPosts({ page: 1 });
 
     return {
+      ...baseConfig,
       props: {
         posts,
         fetchResult: FetchResult.Success,
@@ -25,6 +30,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     };
   } catch (err) {
     return {
+      ...baseConfig,
       props: {
         posts: {
           data: [],
