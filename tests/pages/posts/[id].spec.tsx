@@ -1,13 +1,13 @@
-import PostPage, { getStaticPaths, getStaticProps, PostPageProps } from './[id]';
-import { postFixture, postsFixture } from '../../tests/fixtures';
-import { render, screen } from '../../tests/test_utils';
-import { getText } from '../../utils/general';
-import { FetchResult, Post } from '../../types';
+import PostPage, { getStaticPaths, getStaticProps, PostPageProps } from '../../../pages/posts/[id]';
+import { postFixture, postsFixture } from '../../fixtures';
+import { render, screen } from '../../test_utils';
+import { getText } from '../../../utils/general';
+import { FetchResult, Post } from '../../../types';
 import { PropsWithChildren } from 'react';
 import { mocked } from 'ts-jest/utils';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
-import { getPost, getPosts } from '../../services/api';
-import { POSTS_PER_PAGE } from '../../constants';
+import { getPost, getPosts } from '../../../services/api';
+import { POSTS_PER_PAGE } from '../../../constants';
 
 jest.mock('next/head', () => ({
   __esModule: true,

@@ -1,7 +1,7 @@
-import App from './_app';
+import App from '../../pages/_app';
 import { AppProps } from 'next/app';
 import { Router } from 'next/router';
-import { render, screen } from '../tests/test_utils';
+import { render, screen } from '../test_utils';
 
 describe('App', () => {
   it('should render the provided component', async () => {

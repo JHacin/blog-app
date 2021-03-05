@@ -1,14 +1,14 @@
-import { render, screen, userEvent, act } from '../tests/test_utils';
-import Home, { getStaticProps, HomeProps } from './index';
-import { postsFixture } from '../tests/fixtures';
-import { getText } from '../utils/general';
+import { render, screen, userEvent, act } from '../test_utils';
+import Home, { getStaticProps, HomeProps } from '../../pages';
+import { postsFixture } from '../fixtures';
+import { getText } from '../../utils/general';
 import { GetStaticPropsResult } from 'next';
 import { mocked } from 'ts-jest/utils';
 import { PropsWithChildren } from 'react';
-import { FetchResult, Post } from '../types';
-import { getPosts, GetPostsResponse } from '../services/api';
-import { getPage } from '../services/pagination';
-import { POSTS_PER_PAGE } from '../constants';
+import { FetchResult, Post } from '../../types';
+import { getPosts, GetPostsResponse } from '../../services/api';
+import { getPage } from '../../services/pagination';
+import { POSTS_PER_PAGE } from '../../constants';
 
 jest.mock('next/head', () => ({
   __esModule: true,
