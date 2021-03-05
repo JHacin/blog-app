@@ -26,10 +26,6 @@ describe('PostPreview', () => {
     render(<PostPreview post={postFixture} />);
 
     expect(screen.getByRole('heading', { name: postFixture.title })).toBeInTheDocument();
-    expect(screen.getByRole('img')).toHaveAttribute(
-      'src',
-      `https://picsum.photos/${350 + postFixture.id}/${200 + postFixture.id}`,
-    );
     expect(screen.getByText(postFixture.body)).toBeInTheDocument();
   });
 

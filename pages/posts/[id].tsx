@@ -4,6 +4,7 @@ import { Container } from 'reactstrap';
 import { FetchResult, Post } from '../../types';
 import { getText } from '../../utils/general';
 import { getPost, getPosts, GetPostsResponse } from '../../services/api';
+import Image, { ImageLoaderProps } from 'next/image';
 
 interface ErrorResult {
   post: null;
@@ -48,6 +49,9 @@ export const getStaticProps: GetStaticProps<PostPageProps, { id: string }> = asy
   }
 };
 
+const imageLoader = ({ src }: ImageLoaderProps): string =>
+  `https://picsum.photos/id/${src}/720/460`
+
 const PostPage = (props: PostPageProps): JSX.Element => {
   return (
     <>
@@ -64,7 +68,14 @@ const PostPage = (props: PostPageProps): JSX.Element => {
             <h1 className="text-center mb-5">{props.post.title}</h1>
 
             <div className="text-center mb-5">
-              <img src={`https://picsum.photos/720/460`} alt="" className="img-fluid" />
+              <Image
+                loader={imageLoader}
+                src={`${props.post.id}`}
+                alt="Random image"
+                width={720}
+                height={420}
+                priority={true}
+              />
             </div>
 
             <div className="post-body mb-5">{props.post.body}</div>
