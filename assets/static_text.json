@@ -5,5 +5,8 @@
   "home-latest-posts": "Latest posts",
   "home-fetch-error": "Something went wrong while retrieving latest posts. Please try again.",
   "post-fetch-error": "Something went wrong while retrieving the post, or the URL is invalid. Please try again.",
-  "error-meta-title": "Oops..."
+  "error-meta-title": "Oops...",
+  "load-more": "Load more",
+  "load-more-error": "Something went wrong while retrieving the next page of posts. Please try again.",
+  "load-more-loading": "Loading..."
 }

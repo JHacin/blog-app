@@ -9,3 +9,7 @@ export enum FetchResult {
   Error = 'error',
   Success = 'success'
 }
+
+export enum ApiEndpoint {
+  Posts = 'posts'
+}

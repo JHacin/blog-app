@@ -7,6 +7,7 @@ import { PropsWithChildren } from 'react';
 import { mocked } from 'ts-jest/utils';
 import { GetStaticPathsResult, GetStaticPropsContext, GetStaticPropsResult } from 'next';
 import { getPost, getPosts } from '../../services/api';
+import { POSTS_PER_PAGE } from '../../constants';
 
 jest.mock('next/head', () => ({
   __esModule: true,
@@ -50,7 +51,14 @@ describe('PostPage', () => {
     const mockGetPosts = mocked(getPosts);
 
     beforeAll(() => {
-      mockGetPosts.mockResolvedValue(postsFixture);
+      mockGetPosts.mockResolvedValue({
+        data: postsFixture,
+        meta: {
+          total: postsFixture.length,
+          page: 1,
+          per_page: POSTS_PER_PAGE,
+        },
+      });
     });
 
     it('should fetch the list of all posts and return the right static paths definition', async () => {

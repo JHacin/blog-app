@@ -7,7 +7,7 @@ export const postFixture: Post = {
   body: 'body',
 };
 
-export const postsFixture: Post[] = Array(5)
+export const postsFixture: Post[] = Array(100)
   .fill(undefined)
   .map<Post>((_, index: number) => ({
     ...postFixture,

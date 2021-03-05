@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { Container } from 'reactstrap';
 import { FetchResult, Post } from '../../types';
 import { getText } from '../../utils/general';
-import { getPost, getPosts } from '../../services/api';
+import { getPost, getPosts, GetPostsResponse } from '../../services/api';
 
 interface ErrorResult {
   post: null;
@@ -18,9 +18,9 @@ interface SuccessResult {
 export type PostPageProps = SuccessResult | ErrorResult;
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts: Post[] = await getPosts();
+  const posts: GetPostsResponse = await getPosts();
 
-  const paths: string[] = posts.map((post: Post) => `/posts/${post.id}`);
+  const paths: string[] = posts.data.map((post: Post) => `/posts/${post.id}`);
 
   return {
     paths,
