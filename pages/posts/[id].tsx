@@ -57,7 +57,6 @@ const PostPage = (props: PostPageProps): JSX.Element => {
     <>
       <Head>
         <title>{props.post?.title ?? getText('error-meta-title')}</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Container className="pt-5">

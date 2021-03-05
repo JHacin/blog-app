@@ -68,7 +68,6 @@ const Home = ({ posts: initialPosts, fetchResult }: HomeProps): JSX.Element => {
     <>
       <Head>
         <title>{getText('home-title')}</title>
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Jumbotron className="mb-5">
